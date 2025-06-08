@@ -1,22 +1,23 @@
-# 使用官方.NET运行时镜像作为基础
-FROM mcr.microsoft.com/dotnet/runtime:6.0-focal AS base
+# 使用Ubuntu 20.04作为基础镜像
+FROM ubuntu:20.04 AS base
 WORKDIR /app
 
-# 安装依赖
+# 安装.NET 6运行时和依赖
 RUN apt-get update && \
-    apt-get install -y ffmpeg libasound2 && \
+    apt-get install -y wget && \
+    wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -y dotnet-runtime-6.0 ffmpeg alsa-utils libasound2 && \
     rm -rf /var/lib/apt/lists/*
 
 # 复制必要的文件
-COPY BilibiliAutoLiver .
-COPY libe_sqlite3.so .
-COPY libSkiaSharp.so .
-COPY appsettings.json .
-COPY nlog.config .
-COPY wwwroot ./wwwroot
+COPY . .
 
-# 设置执行权限
-RUN chmod +x BilibiliAutoLiver
+# 设置文件权限
+RUN chmod -R 755 /app && \
+    chmod +x BilibiliAutoLiver
 
 # 暴露端口
 EXPOSE 18686
