@@ -2,6 +2,8 @@
 
 Bilibili（B站）无人值守直播工具。自动登录，自动获取直播推流地址，自动推流（使用ffmpeg），可以用于电脑、树莓派等设备无人值守直播。  
 
+### dockerfile
+dockerfile使用linux_64项目文件生成
 ### 前提条件  
 - 在Bilibili中通过实名认证，并开通了直播间。[点击连接](https://link.bilibili.com/p/center/index "点击连接")开通直播间（很简单的，实名认证通过后直接就可以开通了）  
 - 推流默认使用FFmpeg，树莓派官方系统默认安装了的，我就不再赘述，其它系统请自行安装（Windows版本已经打包ffmpeg，就不用自己装了）。  
