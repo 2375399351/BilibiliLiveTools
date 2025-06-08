@@ -1,15 +1,16 @@
-# 使用Ubuntu 20.04作为基础镜像
-FROM ubuntu:20.04 AS base
+# 使用Ubuntu 22.04作为基础镜像
+FROM ubuntu:22.04 AS base
 WORKDIR /app
 
 # 安装.NET 6运行时和依赖
 RUN apt-get update && \
-    apt-get install -y wget && \
+    apt-get install -y wget software-properties-common && \
+    add-apt-repository ppa:ubuntuhandbook1/ffmpeg7 -y && \
     wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
     dpkg -i packages-microsoft-prod.deb && \
     rm packages-microsoft-prod.deb && \
     apt-get update && \
-    apt-get install -y dotnet-runtime-6.0 ffmpeg alsa-utils libasound2 && \
+    apt-get install -y ffmpeg dotnet-runtime-6.0 alsa-utils libasound2 && \
     rm -rf /var/lib/apt/lists/*
 
 # 复制必要的文件
